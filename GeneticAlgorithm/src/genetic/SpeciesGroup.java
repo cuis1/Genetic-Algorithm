@@ -57,14 +57,17 @@ public class SpeciesGroup {
 		for(int i = 0;i<size;i++){
 			member[i] = firstGeneration[i];
 		}
-//		for (int i = 0; i < member.length; i++) {
-//			System.out.println(member[i]);
-//		}
-		//进行解码
 		decode();
 	}
 	
-
+	/**
+	 * 本段代码本设计中并未使用
+	 * 
+	 * 编码
+	 * 随机生成一个只包含0/1的33位的数组
+	 * 该数组左边是高位，右端是低位
+	 * 其中前18位是X1的编码，后15位是X2的编码
+	 */
 	public void encode(){
 		int size_index = 0; 
 		while(size_index < SpeciesGroup.size){
@@ -73,7 +76,6 @@ public class SpeciesGroup {
 			for(int i = 0;i < lengthOfCode;i++){
 				int_gen[i] = rand.nextInt(2);//随机生成一个只包含0/1的33位的数组
 			}
-
 			String sb = new String();
 			for(int i=1;i<int_gen.length;i++){
 				sb += Integer.toString(int_gen[i]);
@@ -89,18 +91,14 @@ public class SpeciesGroup {
 	 */
 	public double[] getValues(){
 		double[] values = new double[2] ;
-		
 		double sum = 0 ;
 		for(int i = 0 ; i < fitness.length ; i ++){
 			sum += fitness[i] ;
 		}
-		
 		values[0] = sum / fitness.length ;
 		values[1] = bestOneFit ;
-		
 		return values ;
 	}
-	
 	
 	/**
 	 * 解码
@@ -121,7 +119,6 @@ public class SpeciesGroup {
 			k = 0;
 			mum_index += 1;
 		}
-		
 	}
 	
 	/**
@@ -160,64 +157,18 @@ public class SpeciesGroup {
 				int one = randomNumber.nextInt(size);//随机选出 一个 个体
 				int theOther = randomNumber.nextInt(size);//随机选出另一个个体
 				int intersection = randomNumber.nextInt(lengthOfCode);//随机产生 交叉点
-							
 				String str_one = member[one].substring(intersection);
-				String str_theOther = member[theOther].substring(intersection);
-
-				
+				String str_theOther = member[theOther].substring(intersection);				
 				StringBuffer sb = new StringBuffer(member[one]);//交换第一个 个体
 				sb.replace(intersection, lengthOfCode,str_theOther);
 				member[one] = sb.toString();
-				
 			    sb = new StringBuffer(member[theOther]);//交换第二个 个体
 				sb.replace(intersection, lengthOfCode,str_one);
 				member[theOther] = sb.toString();
-				
  			}
 			else{				
 			}
 		}
-	}
-	
-	/**
-	 * 轮盘赌方法
-	 */
-	public void gambleWheel_1()
-	{ 
-	   double sum=0;
-	   for (int i = 0; i <size; i++) {
-		   sum=fitness[i]+sum;
-	   }
-
-	   double[] p = new double[SpeciesGroup.size]; //适应度的概率
-	   for (int i = 0; i < size; i++) {
-		   p[i]=fitness[i]/sum;
-	   }
-	   double[] q = new double[SpeciesGroup.size];
-	   for (int i = 0; i < size; i++) {
-		   for (int j = 0; j < i+1; j++) {	     
-			  q[i]+=p[j];
-	       }
-	   }
-	   double[] ran=new double[50];
-	   String[] tempPop=new String[50];
-	   for (int i = 0; i < ran.length; i++) {	    
-		   ran[i]=randomNumber.nextDouble();
-	   }
-	   for (int i = 0; i < ran.length; i++) {	    
-		   int k = 0;	  
-		   for (int j = 0; j < q.length; j++) {	    
-			   if(ran[i]<q[j]){	     
-				   k=j;	      
-				   break;	    
-			   }	     
-			   else continue;	    
-		   }	    
-		   tempPop[i]=member[k];	  
-	   }
-	   for (int i = 0; i < tempPop.length; i++) {	    
-		   member[i]=tempPop[i];
-	   }
 	}
 	
 	/**
@@ -233,7 +184,7 @@ public class SpeciesGroup {
 		for(int i=0;i<SpeciesGroup.size;i++){
 			fProbability[i] = fitness[i]/sum;
 		}
-
+		
 		double[] wheelBorder = new double[SpeciesGroup.size+1];//赌轮 边界
 		wheelBorder[0] = 0;
 		for(int i = 0;i<SpeciesGroup.size;i++){
@@ -244,8 +195,7 @@ public class SpeciesGroup {
 		
 		double pointer = 0;
 		String[]tempMember = new  String[SpeciesGroup.size];//下一代 临时种群成员；
-		for(int i = 0;i<SpeciesGroup.size;i++){
-		// pointer = Math.random();                     //  模仿赌轮指针  			
+		for(int i = 0;i<SpeciesGroup.size;i++){			
 			pointer = randomNumber.nextDouble();			 
 			for(int j=0;j<wheelBorder.length-1;j++){		//赌轮 转动 后 指针 随机 指向 赌轮 中的一块区域				 
 				if(pointer>=wheelBorder[j]&&pointer<wheelBorder[j+1]){//确定是那块区域					 
@@ -264,14 +214,22 @@ public class SpeciesGroup {
 	/**
 	 * 返回最大的适应度值
 	 * f==x1sin(4*pi*x1)+x2sin(13*pi*x2)+18
+	 * f = 0.5-(sin(sqrt(x*x+y*y))-0.5)/((1.0+0.001(x*x+y*y))*(1.0+0.001(x*x+y*y)))
+	 * f =x1sin(sqrt(4*abs(x1)))+x2sin(sqrt(3*abs(x2)))+18 
 	 */
 	public double sufficiency(){
-	//	String theBest=null;
 		int max = 0;
 		int min = 0;
 		for(int i = 0;i<SpeciesGroup.size;i++){
-			fitness[i] = problemThings[i][0]*Math.sin(Math.PI*4*problemThings[i][0]) +
-					problemThings[i][1]*Math.sin(Math.PI*13*problemThings[i][1])+18;
+//			fitness[i] = problemThings[i][0]*Math.sin(Math.PI*4*problemThings[i][0]) +
+//					problemThings[i][1]*Math.sin(Math.PI*13*problemThings[i][1])+18;
+			
+//			double y1 = problemThings[i][0]*problemThings[i][0]+problemThings[i][1]*problemThings[i][1];
+//			fitness[i] =0.5-(Math.sin(Math.sqrt(y1))*Math.sin(Math.sqrt(y1))-0.5)/((1.0+0.001*y1)*(1.0+0.001*y1));
+			
+			fitness[i] = problemThings[i][0]*Math.sin(Math.PI*4*Math.abs(problemThings[i][0])) +
+					problemThings[i][1]*Math.sin(Math.PI*13*Math.abs(problemThings[i][1])) + 18;
+			
 			if(fitness[max]<fitness[i]){
 				max = i;
 			}
@@ -296,22 +254,15 @@ public class SpeciesGroup {
 			System.out.println("Encode=：" + member[min]);
 			return fitness[min];
 		}
-		
-
 	}
-	
-	
 	
 	/**
 	 * 下一代
 	 */
 	public void nextGeneration(){	
-		//gambleWheel_1();  //选择
 		gambleWheel();      //选择		
-		
 		intersect();   		//交叉
 		variation();   		//变异
-		SpeciesGroup.generation++;         //不停迭代到下一代
 	}
 	
 	/**
@@ -330,8 +281,6 @@ public class SpeciesGroup {
 	public static void main(String[] args) {
 		CoreControl control = new CoreControl();
 		control.initialize();        //进行初始化
-
 		SpeciesGroup speciesGroup = new SpeciesGroup(control.getMembers());
     }
-
 }

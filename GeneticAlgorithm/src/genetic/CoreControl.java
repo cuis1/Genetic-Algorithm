@@ -20,22 +20,25 @@ public class CoreControl {     // 核心控制类
 	 * @return  
 	 */
 	
-	public static final double X1_A=-3;//区间下界
+	public static final double X1_A=-3.0;//区间下界
 	public static final double X1_B=12.1;//区间上界
 	public static final double interalX1 = X1_B-X1_A;//区间
-	public static final double X2_A=4.1;//区间下界
+	public static final double X2_A=-4.1;//区间下界
 	public static final double X2_B=5.8;//区间上界
 	public static final double interalX2 = X2_B-X2_A;//区间
 	public double[] problemThings = new double[SpeciesGroup.size];//问题相关的 数字
 	public String[] members = new String[SpeciesGroup.size];
 	
-	public static final int LENGTH=33;//编码长度，因为要精确到小数点后六位，所以编为LENGTH位长，有一公式可参考
+	public static final int LENGTH=33;//编码长度，因为要精确到小数点后5位，所以编为LENGTH位长，有一公式可参考
 	
-	public static final int stop = 100;//停止的代数
+	public static final int stop = 1000;//停止的代数
 	
 	
 	/**
 	 * 编码
+	 * 随机生成一个只包含0/1的33位的数组
+	 * 该数组左边是高位，右端是低位
+	 * 其中前18位是X1的编码，后15位是X2的编码
 	 */
 	public void encode(){
 		int size_index = 0; 
@@ -43,10 +46,8 @@ public class CoreControl {     // 核心控制类
 			Random rand = new Random();
 			int[] int_gen = new int[LENGTH];//十进制形式 成员的
 			for(int i = 0;i < LENGTH;i++){
-				int_gen[i] = rand.nextInt(2);//随机生成一个只包含0/1的33位的数组
-//				System.out.print(int_gen[i]);
+				int_gen[i] = rand.nextInt(2);
 			}
-//			System.out.println();
 			String sb = new String("");
 			for(int i = 0; i < LENGTH; i++){
 				sb += Integer.toString(int_gen[i]);

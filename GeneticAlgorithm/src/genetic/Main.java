@@ -39,13 +39,8 @@ public class Main {
 			theBest = speciesGroup.sufficiency();
 			System.out.println("f="+theBest); //输出每次迭代适应度最大对应的结果值
 			System.out.println();
-			
-			speciesGroup.gambleWheel();        //运用赌盘方法进行选择			          
-			speciesGroup.intersect();          //交叉
-			speciesGroup.variation();          //变异
-
+			speciesGroup.nextGeneration();
 			values = speciesGroup.getValues() ;
-
 			pw1.println(values[0]) ;
 			pw2.println(values[1]) ;
 			pw2.println("第"+n+"代：") ;
