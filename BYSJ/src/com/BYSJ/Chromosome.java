@@ -5,7 +5,7 @@ import java.util.Random;
 import org.omg.CORBA.FloatSeqHelper;
 
 public class Chromosome {
-    protected int chromosomeLength = 7; //染色体长度
+    protected int chromosomeLength = 5; //染色体长度
     protected int chromosomeHigh = 3;  //染色体高度
     protected int inputLength = (int) Math.pow(2,chromosomeHigh);//输入个数
     protected int[][] gene = {{1, 1, 1, 0}, {2, 3, 4, 5}};//基因编码库
