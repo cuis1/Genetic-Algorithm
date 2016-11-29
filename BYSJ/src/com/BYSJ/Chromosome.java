@@ -5,14 +5,14 @@ import java.util.Random;
 import org.omg.CORBA.FloatSeqHelper;
 
 public class Chromosome {
-    protected int chromosomeLength = 36; //æŸ“è‰²ä½“é•¿åº¦
-    protected int chromosomeHigh = 6;  //æŸ“è‰²ä½“é«˜åº¦
-    protected int inputLength = (int) Math.pow(2,chromosomeHigh);//è¾“å…¥ä¸ªæ•°
-    protected int[][] gene = {{1, 1, 1, 0}, {2, 3, 4, 5}};//åŸºå› ç¼–ç åº“
-    protected boolean USE_5 = false; //éé—¨ä½¿ç”¨ä¸å¦çš„æ ‡å¿—ä½
-    Random random = new Random();//éšæœºæ•°ç”Ÿæˆå¯¹è±¡çš„å®šä¹‰
-    Range range = new Range();//rangeå‡½æ•°å¯¹è±¡å®ä¾‹åŒ–
-	//é€‰ç€ç»„æˆæŸ“è‰²ä½“çš„åŸºå› 
+    protected int chromosomeLength = 7; //È¾É«Ìå³¤¶È
+    protected int chromosomeHigh = 3;  //È¾É«Ìå¸ß¶È
+    protected int inputLength = (int) Math.pow(2,chromosomeHigh);//ÊäÈë¸öÊı
+    protected int[][] gene = {{1, 1, 1, 0}, {2, 3, 4, 5}};//»ùÒò±àÂë¿â
+    protected boolean USE_5 = false; //·ÇÃÅÊ¹ÓÃÓë·ñµÄ±êÖ¾Î»
+    Random random = new Random();//Ëæ»úÊıÉú³É¶ÔÏóµÄ¶¨Òå
+    Range range = new Range();//rangeº¯Êı¶ÔÏóÊµÀı»¯
+  //Ñ¡×Å×é³ÉÈ¾É«ÌåµÄ»ùÒò
 	protected int [] chooseGene(){
 		int randomElement = random.nextInt(gene[0].length);
 		if (!USE_5) {
@@ -28,7 +28,7 @@ public class Chromosome {
 		int [] choose = {randomElement, randomPosition1, randomPosition2};
 		return choose;		
 	}
-	//ä½¿ç”¨è¢«é€‰æ‹©çš„åŸºå› æ„é€ æŸ“è‰²ä½“
+	//Ê¹ÓÃ±»Ñ¡ÔñµÄ»ùÒò¹¹ÔìÈ¾É«Ìå
 	protected int [][] createChromosome(){
 		int [] position = new int[3];
 		int [][] tempChromosome = new int[chromosomeHigh][chromosomeLength];
@@ -43,17 +43,4 @@ public class Chromosome {
 		}
 		return tempChromosome;		
 	}
-//	public static void main(String[] args) {
-//		Chromosome a = new Chromosome();
-//		int [][] position = new int[a.chromosomeHigh][a.chromosomeLength];
-//		position = a.createChromosome();
-//		Print.printArray(position);
-////		for (int positionH = 0; positionH < position.length; positionH++) {
-////			System.out.println();
-////			for (int positionL = 0; positionL < position[0].length; positionL++) {
-////				System.out.print(position[positionH][positionL]);
-////				System.out.print(' ');
-////			}			
-////		}		
-//	}
 }

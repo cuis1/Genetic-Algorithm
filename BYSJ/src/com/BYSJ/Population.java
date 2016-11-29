@@ -84,7 +84,6 @@ public class Population extends Chromosome{
                     if (populationList[populationIndex][chromosomeHighIndex][chromosomeLengthIndex] == 1)
                         control = chromosomeHighIndex;
                     else if (populationList[populationIndex][chromosomeHighIndex][chromosomeLengthIndex] == 0){
-                        //System.out.println(directIndex+ " " + chromosomeHighIndex);
                     	direct[directIndex] = chromosomeHighIndex;
                         directIndex++;
                     }
@@ -183,22 +182,15 @@ public class Population extends Chromosome{
     //计算适应度
     private int[] calculateFitness(int scaleIndex,boolean useTarget){
     	//3位Toffoli门
-    	//Print.printArray(range.range(chromosomeHigh));
-    	//int [][] target = {{0, 0, 0, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 0, 0, 1, 1}, {0, 1, 0, 1, 0, 1, 1, 0}};//控制非门
-    	//int [][] target = {{0, 0, 0, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 0, 1, 1}};//控制交换门
-//    	int [][] target = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-//    						{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1}, 
-//    						{0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1}, 
-//    						{0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1}, 
-//    						{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0}};
-    	int [][] target = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
-    			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
-    			{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1}, 
-    			{0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1}, 
-    			{0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,1,1,0,0}, 
-    			{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1}};
-    	//int [][] target = {{1, 0, 0, 0, 1, 0, 1, 1}, {1, 0, 0, 1, 0, 1, 1, 0}, {1, 0, 1, 1, 0, 0, 0, 1}};
-    	//for (int scaleIndex : range.range(0, scalePopulation)){
+    	//int [][] target = {{0, 0, 0, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 0, 0, 1, 1}, {0, 1, 0, 1, 0, 1, 1, 0}};//Toffoli门
+    	int [][] target = {{0, 0, 0, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 0, 1, 1}};//控制交换门
+//    	int [][] target = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
+//    			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
+//    			{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1}, 
+//    			{0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1}, 
+//    			{0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,1,1,0,0}, 
+//    			{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1}};
+
             int fit = 0;
             for (int longIndex : range.range(chromosomeLength - 1)){
                 //门电路中相邻两个量子门数据完全相同，排除
@@ -233,25 +225,17 @@ public class Population extends Chromosome{
                         if (target[highIndex][targetLengthIndex] ==
                         		populationOutputList[scaleIndex][highIndex][targetLengthIndex])
                             fit += 1;
-//                        if (populationOutputList[scaleIndex][highIndex][targetLengthIndex] == 1 && (chromosomeHigh-1 == highIndex )&&(inputLength-2 == targetLengthIndex)) {
-//                        	fit += 100;
-//    					}
-//                        if (populationOutputList[scaleIndex][highIndex][targetLengthIndex] == 0 && (chromosomeHigh-1 == highIndex )&&(inputLength-1 == targetLengthIndex)) {
-//                        	fit += 100;
-//    					}
                     }
                 }
                 else if (! useTarget){
                     for (int inputLengthIndex : range.range(inputList[0].length)){
                         if (populationOutputList[scaleIndex][highIndex][inputLengthIndex] != 0 && 
                         		populationOutputList[scaleIndex][highIndex][inputLengthIndex] != 1){
-//                        	System.out.println(-1);
                             fit -= 1;
                         }
                         if (inputList[highIndex][inputLengthIndex] == 
                         		populationOutputAsInputList[scaleIndex][highIndex][inputLengthIndex]){
                             fit += 1;
-//                            System.out.println(1);
                         }
                     }
                 }
@@ -259,9 +243,7 @@ public class Population extends Chromosome{
             populationFitnessList[scaleIndex] = fit;
             return populationFitnessList;	
         }
-    	//return populationFitnessList;		
-	//}
-    //保留最优个体
+    
     @SuppressWarnings("unchecked")
 	private Map finMaxFitness() {
     	int [] temp = max(populationFitnessList);
@@ -292,7 +274,6 @@ public class Population extends Chromosome{
 					for (int startIndex2 = startIndex1 + 1; startIndex2 < listChomosome.length; startIndex2++) {
 						for (int contentLengthIndex = 0; contentLengthIndex < chromosomeLength; contentLengthIndex++) {
 							for (int contentHighIndex = 0; contentHighIndex < chromosomeHigh; contentHighIndex++) {
-								//System.out.println((int)listChomosome[startIndex1]+" " +(int) listChomosome[startIndex2]);
 								distance += Math.pow(
 								populationList[(int)listChomosome[startIndex1]][contentHighIndex][contentLengthIndex]-
 							populationList[(int) listChomosome[startIndex2]][contentHighIndex][contentLengthIndex],2);								
@@ -354,7 +335,6 @@ public class Population extends Chromosome{
 			    int[][] tempChromosome1 = new int[chromosomeHigh][chromosomeLength];
 			    int[][] tempChromosome2 = new int[chromosomeHigh][chromosomeLength];
 			    int crossPosition = random.nextInt(chromosomeLength - 1) + 1;
-			    //System.out.println(crossPosition);
 			    for (int highIndex : range.range(chromosomeHigh)) {
 			    	tempLine1 = CrossTwoArray.crossArray(populationList[individual1][highIndex], 
 			    			populationList[individual2][highIndex], crossPosition);
@@ -379,29 +359,22 @@ public class Population extends Chromosome{
 			int individual1 = select();
 		    int individual2 = select();
 		    int individual3 = select();
-		    //System.out.println(individual1+" "+individual2 + " "+individual3+" "+ populationIndex);
 		    if (random.nextFloat() < crossProbability) {
 			    int[] tempLine1 = new int[chromosomeLength];
-			    //int[] tempLine2 = new int[chromosomeLength];
 			    int[][] tempChromosome1 = new int[chromosomeHigh][chromosomeLength];
-			    //int[][] tempChromosome2 = new int[chromosomeHigh][chromosomeLength];
 			    int crossPosition1 = random.nextInt(chromosomeLength - 2)+1;
 			    int crossPosition2 = random.nextInt(chromosomeLength - crossPosition1 -1)+1+crossPosition1;
-			    //System.out.println(crossPosition);
 			    for (int highIndex : range.range(chromosomeHigh)) {
 			    	tempLine1 = CrossTwoArray.crossArray(populationList[individual1][highIndex], 
 			    			populationList[individual2][highIndex], crossPosition1);
 			    	tempLine1 = CrossTwoArray.crossArray(tempLine1,
 			    			populationList[individual3][highIndex], crossPosition2);
                     tempChromosome1[highIndex] = tempLine1;
-                    //tempChromosome2[highIndex] = tempLine2;
 				}
 			    nextPopulation[populationIndex] = tempChromosome1;
-			    //nextPopulation[populationIndex + 1] = tempChromosome2;
 			}
 		    else {
 		    	nextPopulation[populationIndex] = populationList[individual1];
-			    //nextPopulation[populationIndex + 1] = populationList[individual2];
 			}
 		}
 		return nextPopulation;
@@ -413,7 +386,6 @@ public class Population extends Chromosome{
                 if (random.nextFloat() < 0.5)
                     nextPopulation[scaleIndex] = createChromosome();
                 else{
-                    //int position = random.nextInt(chromosomeLength);
                     int position = chooseGene()[0];
                     int [] genIndexAndPosition = chooseGene();
                     for (int highIndex : range.range(chromosomeHigh)){
@@ -441,7 +413,6 @@ public class Population extends Chromosome{
     	boolean USE_TARGET = true;
     	Range range = new Range();
     	System.out.println("Function is running...");
-    	//String filePath="F:\\java_workplace\\BYSJ";
     	String fileName = "text.txt";
     	
     	File file = new File(fileName);
@@ -449,7 +420,6 @@ public class Population extends Chromosome{
     	if (file.exists()) {
     		file.delete();
     		}
-    	//file.createNewFile();
 		FileWriter fw = new FileWriter(file,true);
 		PrintWriter pw = new PrintWriter(fw);
 		
@@ -464,10 +434,9 @@ public class Population extends Chromosome{
 		a.inputList = a.chromosomeInput();
 		Print.printArray(a.inputList, pw);
 		a.creatPopulation();
-		int fitnessMaxValue = a.chromosomeHigh * a.inputLength; //+ 200;
+		int fitnessMaxValue = a.chromosomeHigh * a.inputLength; 
 		while ((int)a.maxFitnessList.get("Fitness") < fitnessMaxValue ) {
 			number += 1;
-			//System.out.println(number);&& number < 100000
 			for (int scaleIndex : range.range(a.scalePopulation))
 	            a.calculateOutput(scaleIndex, a.inputList, true);
 	        if (!USE_TARGET){
@@ -508,32 +477,8 @@ public class Population extends Chromosome{
 				file = new File(newFileName);
 				fw = new FileWriter(file,true);
 				pw = new PrintWriter(fw);
-//				System.out.println(newFileName);
-//				File target = new File(newFileName);
-//				  if (target.exists()) { //新文件若存在，则删掉
-//				    target.delete();
-//				  }
-//				boolean sucessful = file.renameTo(target);
-//				while (!sucessful) {
-//					times+=1;
-//					if (times%50000 == 0) {
-//						System.out.println("改名未成功次数突破" + times + "!!!");
-//					}
-//					sucessful = file.renameTo(new File(newFileName));
-//					//System.out.println(file.renameTo(new File(newFileName)));
-//				}
-//				System.out.println(sucessful);
-//				System.out.println("____________________________________________________");
-//				System.out.println(fileName);
-//				file = new File(fileName);
-//				fw = new FileWriter(file,true);
-//				pw = new PrintWriter(fw);
 			}
 		}
-//		for (int scaleIndex : range.range(a.scalePopulation)) {
-//			pw.println("##########第"+ scaleIndex +"个个体########");
-//			Print.printArray(a.populationList[scaleIndex], pw);
-//		}
 		pw.println("______****_______最优结果_______****_________");
 		Print.printArray((int[][])a.maxFitnessList.get("chromosome1"), pw);
 		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
